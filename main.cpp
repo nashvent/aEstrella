@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-float D=120.2;
+float D=100.2;
 template<class T>
 T dEuclidiana(T*a,T*b){
   return abs(a[0]-b[0])+abs(a[1]-b[1]);
@@ -118,8 +118,9 @@ struct Graph{
 	  //H=(dEuclidiana(coord[tempN],coord[b]));//Basica
 	  //H=(dEuclidianaManhatan(coord[tempN],coord[b]))+breakTies(coord[a],coord[b],coord[tempN]);//Mejor
 	  //H=(dEuclidiana2(coord[tempN],coord[b]));//Mucho mejor
-	  H=(dEuclidiana2(coord[tempN],coord[b]))+breakTies(coord[a],coord[b],coord[tempN]);//Mucho pero no tanto mejor	  
+	  //H=(dEuclidiana2(coord[tempN],coord[b]))+breakTies(coord[a],coord[b],coord[tempN]);//Mucho pero no tanto mejor	  
 	  //H=diagonalDistance(coord[tempN],coord[b])+breakTies(coord[a],coord[b],coord[tempN]);
+	  H=dEuclidiana3(coord[tempN],coord[b])+breakTies(coord[a],coord[b],coord[tempN]);
 	  F=G+H;
 	  if(pertenece(openList,tempN)){
 	    if(G<score[tempN][1]){
