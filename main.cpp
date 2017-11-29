@@ -157,7 +157,7 @@ struct Graph{
     }
     */
 
-    /*
+    /*   
     if(closeList[closeList.size()-1]==b){
       vector<int>camino;
       int bTemp=b;
@@ -167,14 +167,14 @@ struct Graph{
 	bTemp=path[bTemp];
       }
       for(int x=camino.size();x>0;x--)
-	cout<<camino[x-1]<<" ";
+	cout<<camino[x-1]<<",";
       cout<<endl;
     }
 
     
     else
       cout<<"No hay camino"<<endl;
-    */
+    */ 
   }
 };
 
@@ -226,14 +226,15 @@ int main(){
     cin >> u >> v >> w;
     g.addEdge(u, v, w);
   }
+  //g.aStar(0,nv-1);
   clock_t begin = clock();
-  for(int count=0;count<1000;count++){
+  //for(int count=0;count<1000;count++){
     g.aStar(rand()%nv,rand()%nv);
-    }
-  clock_t end = clock();
-  double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-  cout<<"en seg: "<<elapsed_secs<<endl;
-
+    //}
+   clock_t end = clock();
+   double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+   cout<<"en seg: "<<elapsed_secs<<endl;
+  
   
   return 0;
 }
