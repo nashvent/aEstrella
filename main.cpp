@@ -96,33 +96,36 @@ struct Graph{
   
   void aStar(int a,int b){
     vector<int>openList,closeList;
-    vector<float*>score(V);//0:F(G+H) , 1:G Peso, 2:Heuristic
+    vector<float*>score(V);//0:F(G+H) , 1:G Peso, 2:Heuristic,3:Estado (1:OpenList,2:CloseList)
     int path[V]={-1};
     openList.push_back(a);
-    score[a]=new float[3];
-    score[a][0]=score[a][1]=score[a][2]=0;
+    score[a]=new float[4];
+    score[a][0]=score[a][1]=score[a][2]=score[a][3]=0;
+    
     while(openList.size()>0){
       int temp=menor(score,openList);
       //cout<<"temp: "<<temp<<endl;
       closeList.push_back(temp);
+      score[temp][3]=2;
       if(temp==b){	
 	break;
       }
       list<pair<int,float> >::iterator vecino;
       for (vecino = adj[temp].begin(); vecino !=adj[temp].end(); vecino++) {
 	int tempN=(*vecino).first;
-	if(!pertenece(closeList,tempN)){
-	  float F,G,H;
-	  float pesoTempN=(*vecino).second;
-	  G=pesoTempN+score[temp][1];
-	  //H=(dEuclidiana(coord[tempN],coord[b]));//Basica
-	  //H=(dEuclidianaManhatan(coord[tempN],coord[b]))+breakTies(coord[a],coord[b],coord[tempN]);//Mejor
-	  //H=(dEuclidiana2(coord[tempN],coord[b]));//Mucho mejor
-	  //H=(dEuclidiana2(coord[tempN],coord[b]))+breakTies(coord[a],coord[b],coord[tempN]);//Mucho pero no tanto mejor	  
-	  //H=diagonalDistance(coord[tempN],coord[b])+breakTies(coord[a],coord[b],coord[tempN]);
-	  H=dEuclidiana3(coord[tempN],coord[b])+breakTies(coord[a],coord[b],coord[tempN]);
-	  F=G+H;
-	  if(pertenece(openList,tempN)){
+	//if(!pertenece(closeList,tempN)){
+	float F,G,H;
+	float pesoTempN=(*vecino).second;
+	G=pesoTempN+score[temp][1];
+	//H=(dEuclidiana(coord[tempN],coord[b]));//Basica
+	//H=(dEuclidianaManhatan(coord[tempN],coord[b]))+breakTies(coord[a],coord[b],coord[tempN]);//Mejor
+	//H=(dEuclidiana2(coord[tempN],coord[b]));//Mucho mejor
+	//H=(dEuclidiana2(coord[tempN],coord[b]))+breakTies(coord[a],coord[b],coord[tempN]);//Mucho pero no tanto mejor	  
+	//H=diagonalDistance(coord[tempN],coord[b])+breakTies(coord[a],coord[b],coord[tempN]);
+	H=dEuclidiana3(coord[tempN],coord[b])+breakTies(coord[a],coord[b],coord[tempN]);
+	F=G+H;
+	if(score[tempN]!=NULL){	  
+	  if(score[tempN][3]==1){
 	    if(G<score[tempN][1]){
 	      score[tempN][0]=F;
 	      score[tempN][1]=G;
@@ -130,16 +133,17 @@ struct Graph{
 	      path[tempN]=temp;
 	    }
 	  }
-	  else{
-	    openList.push_back(tempN);
-	    float*scoreTemp=new float[3];
-	    scoreTemp[0]=F;
-	    scoreTemp[1]=G;
-	    scoreTemp[2]=H;
-	    path[tempN]=temp;
-	    score[tempN]=scoreTemp;
-	  }
-	}	
+	}
+	else{
+	  openList.push_back(tempN);
+	  float*scoreTemp=new float[4];
+	  scoreTemp[0]=F;
+	  scoreTemp[1]=G;
+	  scoreTemp[2]=H;
+	  scoreTemp[3]=1;
+	  path[tempN]=temp;
+	  score[tempN]=scoreTemp;
+	}
       }
     }
     
@@ -157,7 +161,7 @@ struct Graph{
     }
     */
 
-    /*   
+    /*       
     if(closeList[closeList.size()-1]==b){
       vector<int>camino;
       int bTemp=b;
@@ -174,7 +178,7 @@ struct Graph{
     
     else
       cout<<"No hay camino"<<endl;
-    */ 
+    */
   }
 };
 
@@ -228,13 +232,11 @@ int main(){
   }
   //g.aStar(0,nv-1);
   clock_t begin = clock();
-  //for(int count=0;count<1000;count++){
+  for(int count=0;count<1000;count++){
     g.aStar(rand()%nv,rand()%nv);
-    //}
-   clock_t end = clock();
-   double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-   cout<<"en seg: "<<elapsed_secs<<endl;
-  
-  
+  }
+  clock_t end = clock();
+  double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+  cout<<"en seg: "<<elapsed_secs<<endl;
   return 0;
 }

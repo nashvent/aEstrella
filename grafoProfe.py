@@ -1,7 +1,7 @@
 import numpy as np
 np.random.seed(0)
 # points = np.array([[0, 0], [0, 1.1], [1, 0], [1, 1]])
-tamGrafo=100
+tamGrafo=1000
 points = np.random.random((tamGrafo, 2))
 
 from scipy.spatial import Delaunay
@@ -67,9 +67,9 @@ ax.margins(0.1)
 
 # dibujar los vertices del path
  #path = [543, 471, 988, 687, 165, 843] # vertices del nodo
-#path = [0,268,958,308,18,549,539,999]
-#pps = points[path,:]
-#plt.plot(pps[:,0], pps[:,1], 'o')
+path = [0,268,958,308,18,549,539,999]
+pps = points[path,:]
+plt.plot(pps[:,0], pps[:,1], 'o')
 plt.show()
 
  
