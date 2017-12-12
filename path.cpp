@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+//COmntario de paranoia
 using namespace std;
 
 float INF = std::numeric_limits<float>::infinity();
